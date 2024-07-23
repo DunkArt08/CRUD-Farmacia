@@ -1,9 +1,15 @@
 package com.example.farmacia.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -27,6 +33,20 @@ public class Categoria {
 		//Declarando descricao da categoria, podendo ter min e max se for declarado!
 		@Size(min = 3, max = 100, message = "Insira no minimo 3 caracteres e no maximo 100!")
 		private String descricao;
+
+		
+		@OneToMany(mappedBy = "categoria", cascade = CascadeType.REMOVE )
+		@JsonIgnoreProperties("categoria")
+		private List<Produto> produto;
+
+		public List<Produto> getProduto() {
+			return produto;
+		}
+
+
+		public void setProduto(List<Produto> produto) {
+			this.produto = produto;
+		}
 
 
 		public Long getId() {
